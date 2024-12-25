@@ -154,7 +154,7 @@ class Generator():
 
     def convert_type_no(self, type_no):
         parts = type_no.split(".")
-        if len(parts) == 4 and parts[0] == "4" and parts[1] != "3820":
+        if len(parts) == 4 and parts[0] == "4":
                 parts[2] = "x0"
         return ".".join(parts)
 
@@ -163,20 +163,17 @@ class Generator():
         sensor_channels = sensor_obj._sensor["used_channels"].split(",")
         for index_one, (channels, keys) in enumerate(self.channel_mapping.items()) :
             for key, value in keys.items():
-                for index, (channels_) in enumerate(sensor_channels):
-                    if key == sensor_channels[index] and len(sensor_channels) == 1 :
+                for index_two, (channels_) in enumerate(sensor_channels):
+                    if key == sensor_channels[index_two] and len(sensor_channels) == 1 :
                         values = sensor_obj.activision_values
                         value.update(values)
-                    elif  key == sensor_channels[index]:
+                    elif  key == sensor_channels[index_two]:
                         values = sensor_obj.activision_values
                         value.update(values)
                         if "range" in sensor_obj.activision_values:
                             value_list = sensor_obj.activision_values["range"].split(";")
-                            value_extracted = {"range": value_list[index]}
+                            value_extracted = {"range": value_list[index_two]}
                             value.update(value_extracted)
-
-    def create_confgi(self): 
-        pass 
 
     def format_value(self, value):
         string_value = str(value)
@@ -194,7 +191,7 @@ class Generator():
         else:
             return str(value).strip()
         
-    def write_config(self, ini, path_output_folder, developmod = None) :
+    def write_config(self, ini, path_output_folder) :
         """
             StringIO Objekt ist eine Klasse in Python die einen Text Stream im Speicher bereit stellt d.h.
             ich kann mit dieser Datei arbeiten als wäre sie tatsächlich eine Datei aber anstelle eines Tatsächlichen Dateizugriffs
@@ -210,9 +207,6 @@ class Generator():
         ini_with_comments = f"#{system_info_str}\n#Created Sensors                 {self.sensor_index}\n\n{ini_data}"
 
         new_filename = os.path.join(path_output_folder, f"{self.serial_number}_configuartion.txt")
-        
-        if developmod : 
-            return ini_with_comments
         
         print(new_filename)
 
@@ -279,8 +273,14 @@ class Generator():
                 "Period": list(range(1, 5))
             }
         }
-
-        datalogger_typ = re.sub(r".*\D(\d+)([LMS]).*", r"\2", self.name)
+        """sucht nach dem ersten Treffer im Text 
+        /D ein nicht Zahlen Zeichen,
+        \d+ eine oder mehrere Ziffern als erste Gruppe,
+        LMS ein einzelnes Zeichen welches LM oder S sein muss 
+        .group(2) erste Gruppe sind die Zeichen - Zeite gruppe sind LM oder S 
+        der gefundene Buchstabe wird der Variabele datalogger_typ zugewiesen 
+        """ 
+        datalogger_typ = re.search(r"\D(\d+)([LMS])", self.name).group(2)
         if datalogger_typ in channels:
             self.channels = channels[datalogger_typ]
             self.name = f"Meteo-40{datalogger_typ}"
@@ -463,7 +463,7 @@ class Generator():
 
                             self.channel_mapping[channel_type][key] = copy.deepcopy(channel_dict[channel_type])
   
-    def create_ini_config(self, path_output_folder, developmod = None):
+    def create_ini_config(self, path_output_folder):
         config = configparser.RawConfigParser()
         """
             Aufteilung in static_config_dicts und static_config_dicts_over_sensor da zwischen diese Parts die Channels müssen
@@ -493,9 +493,7 @@ class Generator():
                         config.add_section(section)
                     for key, value in ini[section].items():
                         config.set(section, key, str(value))
-        if developmod: 
-            return config 
-        
+
         self.write_config(config, path_output_folder)
         return("Succesfully create")
     
