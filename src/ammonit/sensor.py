@@ -56,22 +56,14 @@ DEFAULT_SETTINGS = {
         "unit": "hPa",
         "slope_unit": "hPa/V",
         "offset_unit": "hPa",
-
-    },
-    "STATUS_BYTE": {
-        "unit" : None,
-        "type" : "status_word",
-        "statistics": None,
-        "slope_unit" : "",
-        "offset_unit" : ""}
+    }
 }
 
 
 class SensorBase:
 
-    def __init__(self,sensor_index, eval_index, available_channels, SENSOR_DB, **kwargs):
+    def __init__(self, sensor_index, eval_index, available_channels, SENSOR_DB, **kwargs):
         print(f"{type(self).__name__}::init")
-        self.counter = 1 
         self.sensor_index = sensor_index
         self.eval_index = eval_index
         self.available_channels = available_channels
