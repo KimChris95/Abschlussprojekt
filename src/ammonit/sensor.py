@@ -109,7 +109,6 @@ class SensorBase:
     def create_eval_section(self):
         formula_splited, statistics = self.convert_values_from_db()
         for x in range(self.get_number_of_evals()):
-            #self.DEFAULT = copy.deepcopy(DEFAULT_SETTINGS.get(self.cfg["mess_typ"].split(", ")[x], {})) # Behalten solange bis sichergestellt ist das es eine Zeile untendrunter funktioniert. 
             self.cfg = copy.deepcopy(DEFAULT_SETTINGS.get(self.cfg["mess_typ"].split(", ")[x], {})) | copy.deepcopy(self.cfg) # self.cfg erweitern um die jeweils passenden DEFAULT werte. 
             self.select_channel(self.available_channels)
             eval_dict = copy.deepcopy(DEFAULT_EVAL_BLOCK)
@@ -180,12 +179,6 @@ class SensorBase:
         sections.extend([{k: v} for k, v in evals.items()])
         return sections
 
-    def __repr__(self):
-        return self.__str__()
-
-    def __str__(self):
-        return f"{type(self).__name__} {self.name} {self.serial} {self.type_no}"
-
 ##############################################################
 
 class Anemometer(SensorBase):
@@ -199,6 +192,7 @@ class Anemometer(SensorBase):
 
     def process_sensor_section(self):
         pass
+
 
     def process_eval_section(self, eval_dict, x):
         eval_dict["offset_unit"] = self.cfg["offset_unit"]
