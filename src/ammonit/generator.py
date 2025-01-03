@@ -193,12 +193,24 @@ class Generator():
         
     def write_config(self, ini, path_output_folder) :
         """
-            StringIO Objekt ist eine Klasse in Python die einen Text Stream im Speicher bereit stellt d.h.
-            ich kann mit dieser Datei arbeiten als wäre sie tatsächlich eine Datei aber anstelle eines Tatsächlichen Dateizugriffs
-            wird der Text im Arbeitsspeicher gehalten
-            ini.write(output) benutzt die Write funktion vom Configparser und schreibt seinen Text in mein StringIO objekt
-            Die Methode .getvalue() liest den gesamten Inhalt aus dem StringIO objekt und gibt ihn als Text wieder
-            Ohne diese Funktionlität hätte ich die Config schreiben müssen wieder einlesen müssen bearbeiten müssen und wieder schreiben müssen.
+            Schreibt eine Konfiguration in eine Datei und ergänzt sie mit Systeminformationen und Kommentaren.
+        
+            Diese Methode verwendet die `StringIO`-Klasse, um die Konfigurationsdaten im Speicher zwischenzuspeichern, bevor sie in eine Datei geschrieben werden.
+            Dadurch entfällt der direkte Zugriff auf physische Dateien während der Verarbeitung. Die Konfiguration wird zusätzlich mit
+            systembezogenen Kommentaren ergänzt.
+        
+            Args:
+                ini (ConfigParser): Das ConfigParser-Objekt, das die Konfigurationsdaten enthält.
+                path_output_folder (str): Der Pfad zum Ausgabeverzeichnis, in dem die Konfigurationsdatei gespeichert wird.
+        
+            Ablauf:
+                1. Die Methode schreibt die Konfigurationsdaten mithilfe von `ConfigParser.write` in ein `StringIO`-Objekt.
+                2. Mit `.getvalue()` wird der gesamte Inhalt aus dem `StringIO`-Objekt als String extrahiert.
+                3. Systeminformationen und zusätzliche Kommentare werden dem Konfigurationsstring vorangestellt.
+                4. Der vollständige Text wird in eine Datei im angegebenen Ausgabeverzeichnis geschrieben.
+        
+            Returns:
+                str: Die endgültige Konfigurationsdatei als String, einschließlich Systeminformationen und Kommentaren.
         """
         temp = StringIO()
         ini.write(temp, space_around_delimiters=False)
