@@ -273,6 +273,7 @@ class Generator():
                 "Period": list(range(1, 5))
             }
         }
+        
         """sucht nach dem ersten Treffer im Text 
         /D ein nicht Zahlen Zeichen,
         \d+ eine oder mehrere Ziffern als erste Gruppe,
