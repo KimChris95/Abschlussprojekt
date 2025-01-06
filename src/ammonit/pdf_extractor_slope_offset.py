@@ -52,10 +52,8 @@ def search_pdfs(Serial_number, search_values, pdf_folder_path):
 def extract_slope_offset(serial_number, pdf_folder_path, search_values): # search_values = List 
     serial_slope_offset = search_pdfs(serial_number, search_values, pdf_folder_path)
     if serial_slope_offset:
-        print(serial_slope_offset)
         slope_values = serial_slope_offset.get('Slope', [])
         offset_values = serial_slope_offset.get('Offset', [])
-        print(len(slope_values))
         if len(slope_values) > 1 : 
             for x, (value) in enumerate(slope_values) : 
                 slope_values[x] = re.sub(r"[^\d.\-+]", "", value)
@@ -64,6 +62,7 @@ def extract_slope_offset(serial_number, pdf_folder_path, search_values): # searc
         else: 
             slope_values[0] = re.sub(r"[^\d.\-+]", "", slope_values[0])
             offset_values[0] = re.sub(r"[^\d.\-+]", "", offset_values[0])
+        print(f"Serial : {serial_number} Slope : {slope_values} Offset : {offset_values}")
         return slope_values, offset_values
     else : 
         return None, None 

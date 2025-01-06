@@ -506,5 +506,5 @@ class Generator():
     
 if __name__ == "__main__":
     print("*** CONFIG GENERATOR ***")
-    manufacture_plan_path =r"C:\Users\kplec\Desktop\Abschlussprojekt\assets\project_template\01_Connection Planung\2900-1_AUS_ConnectionScheme_V3_IE.xlsm"
+    manufacture_plan_path =r"C:\Users\chris\Desktop\Abschlussprojekt\assets\3153_SouthKorea_SerFac\01_Connection Planung\3153_KOR_ConnectionScheme_V1_VZ.xlsm"
     c = Generator(manufacture_plan_path)

@@ -1,0 +1,1109 @@
+#Ammonit Data Logger - System Information
+#----------------------------------------
+#
+#Data Logger Type                Meteo-40L
+#Serial Number                   D240130
+#Number of Channels              12 Analog Voltage, 12 Counters, 2 Analog Current, 4 Current Sources, 8 Digital, 8 Switches, 8 RS485, 4 Period Measurement
+#Data Logger Location            unknown
+#RAM                             Total: 119 MiB, Used: 54 MiB, Available: 63 MiB
+#Source Data Memory              1960.51MiB (0.02% used, page-id: 944)
+#System Memory                   Total: 447 MiB, Used: 163 MiB, Free: 284 MiB
+#Number of Statistics Files      0
+#Software Version                2.1.8 (2023-01-19)
+#Bootloader Version              10395
+#Current Connections             Admin (192.168.1.0)
+#Date/time                       2025-01-06 21:43:46 UTC
+#Created Sensors                 11
+
+[System]
+name=3153-2024
+config_id=1.1.1711442282
+camera_url=
+camera_copy_to_usb=false
+set_dt_method=use_ntp
+set_dt_threshold=0.4
+ntpserver=0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org
+timezone=UTC+01:00
+display_permissions=network,rec_on,switches,wlan,action
+display_backlight=true
+cecs_power_permanent=true
+cecs_power_on_status=none
+cecs_auto_reboot=weekly
+longitude=
+latitude=
+altitude=
+power_supply=
+min_supply_voltage=11.5
+sign_enc=sign
+force_enc=false
+
+[ModemGSM]
+permanent=true
+number=*99#
+apn=
+username=
+allowed_modes=
+preferred_mode=
+bsd-comp=false
+deflate-comp=false
+vj-comp=false
+switch_id=S1
+sms_active=false
+sms_receiver=
+smsc=
+
+[Ethernet]
+permanent=true
+method=dhcp
+ip_address=192.168.40.40
+subnet_mask=255.255.255.0
+gateway=192.168.40.1
+dns_server=192.168.40.1
+switch_id=none
+never_default=false
+addsubnet=
+
+[Heating]
+switch_id=none
+switch_invert=false
+label=
+temperature_eval=
+humidity_eval=
+temperature_min=-10.0
+temperature_max=2.0
+humidity_min=70.0
+voltage_eval=
+voltage_min=0.0
+windspeed_eval=
+windspeed_min=20.0
+timer=false
+timer_on_1=09:00
+timer_dur_1=01:00
+timer_on_2=21:00
+timer_dur_2=01:00
+
+[WLAN]
+active=false
+ip_address=192.168.42.1
+network=192.168.42.0
+netmask=255.255.255.0
+firstaddr=192.168.42.2
+lastaddr=192.168.42.254
+
+[ServerCopy]
+method=scp
+server=
+port=0
+username=
+ssl_verify=true
+directory=
+startdate=
+csv_data=true
+csv_bis_data=false
+csv_ter_data=false
+logbook=true
+config=true
+use_camera=false
+snapshot=false
+gustdata=false
+
+[EMail]
+method=tls
+server=
+port=0
+ssl_verify=false
+username=
+from=
+to=
+cc=
+popserver=
+startdate=
+csv_data=true
+csv_bis_data=false
+csv_ter_data=false
+logbook=true
+config=true
+use_camera=false
+snapshot=false
+gustdata=false
+max_attach=10
+
+[AmmonitConnect]
+active=true
+active_only_online_action=false
+active_only_for_signalling=false
+login=_ac-login@D240096.connect.ammonit.com
+port=4040
+accesscode=
+xmpp_jids=
+
+[AmmonitOR]
+project_key=
+server=upload.ammonit.com
+username=upload
+port=4041
+startdate=
+csv_data=true
+csv_bis_data=false
+csv_ter_data=false
+logbook=true
+config=true
+use_camera=false
+snapshot=false
+gustdata=false
+
+[LiveData]
+publish_livedata=false
+publish_avgdata=false
+open_nodes=false
+port=443
+server=
+allow_jids=aligator@livedata.ammonit.com
+
+[SCADA]
+active=false
+serial_speed=38400
+serial_format=8N1
+id=1
+protocol_type=Modbus TCP
+port=502
+allowed=
+byte_endianness=high_first
+word_endianness=high_first
+global_access=false
+measurements_to_holding=false
+
+[Evaluation]
+stat_interval=10 min
+stat_bis_active=true
+stat_interval_bis=10 min
+stat_ter_active=false
+stat_interval_ter=10 min
+file_interval=daily
+signal_stat_interval=10 min
+signal_sum_interval=daily
+order=1,2,3,4,5,6,7,8,9,10,11
+partial=false
+capacity_action=stop
+
+[Gusts]
+active=false
+trigger_eval=
+threshold=20.0
+repetitions_min=3
+repetitions_max=15
+t_overhang=15
+csv_evals=
+
+[ActionAmmonitOR]
+weekdays=mon,tue,wed,thu,fri,sat,sun
+time_start=12:00
+time_interval=06:00
+quantity=1
+
+[ActionEMail]
+weekdays=mon,tue,wed,thu,fri,sat,sun
+time_start=12:00
+time_interval=06:00
+quantity=1
+
+[ActionCopy]
+weekdays=
+time_start=12:00
+time_interval=06:00
+quantity=1
+
+[ActionOnline]
+weekdays=mon,tue,wed,thu,fri,sat,sun
+time_start=12:00
+time_interval=06:00
+quantity=1
+minimal_runtime=00:20
+
+[CSVFilesGenerate]
+weekdays=
+time_start=12:00
+time_interval=06:00
+quantity=1
+
+[A1]
+active=true
+rate=1 s
+range=1 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A2]
+active=true
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A3]
+active=true
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A4]
+active=false
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A5]
+active=false
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A6]
+active=false
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A7]
+active=false
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A8]
+active=false
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A9]
+active=false
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A10]
+active=false
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A11]
+active=false
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[A12]
+active=false
+rate=1 s
+range=10 V
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[AC1]
+active=false
+rate=1 s
+range=100 mA
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[AC2]
+active=false
+rate=1 s
+range=100 mA
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C1]
+rate=1 s
+active=true
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C2]
+rate=1 s
+active=true
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C3]
+rate=1 s
+active=true
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C4]
+rate=1 s
+active=true
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C5]
+rate=1 s
+active=true
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C6]
+rate=1 s
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C7]
+rate=1 s
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C8]
+rate=1 s
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C9]
+rate=1 s
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C10]
+rate=1 s
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C11]
+rate=1 s
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[C12]
+rate=1 s
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[P1]
+rate=1 s
+type=none
+active=false
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[P2]
+rate=1 s
+type=none
+active=false
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[P3]
+rate=1 s
+type=none
+active=false
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[P4]
+rate=1 s
+type=none
+active=false
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[D1]
+rate=1 s
+protocol=thies10bit
+active=true
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[D2]
+rate=1 s
+protocol=thies10bit
+active=true
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[D3]
+rate=1 s
+protocol=thies10bit
+active=true
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[D4]
+rate=1 s
+protocol=none
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[D5]
+rate=1 s
+protocol=none
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[D6]
+rate=1 s
+protocol=none
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[D7]
+rate=1 s
+protocol=none
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[D8]
+rate=1 s
+protocol=none
+active=false
+switch_active=false
+switch_id=S1
+switch_pretime=1 min
+statistics=avg,max,min,stddev,count
+statistics_bis=
+statistics_ter=
+
+[R1]
+rate=1 s
+serial_speed=38400
+serial_format=8N1
+sensors_check=false
+biasing_enable=false
+
+[R1C1]
+active=false
+protocol_type=none
+sensor_type=MODBUS_OTHER
+address=0
+modbus_start_register=0
+modbus_function_code=4
+modbus_register_quantity=1
+modbus_data_type=IEEE754
+modbus_word_endianness=high_first
+statistics=count
+statistics_bis=
+statistics_ter=
+
+[R1C2]
+active=false
+protocol_type=none
+sensor_type=MODBUS_OTHER
+address=0
+modbus_start_register=0
+modbus_function_code=4
+modbus_register_quantity=1
+modbus_data_type=IEEE754
+modbus_word_endianness=high_first
+statistics=count
+statistics_bis=
+statistics_ter=
+
+[R1C3]
+active=false
+protocol_type=none
+sensor_type=MODBUS_OTHER
+address=0
+modbus_start_register=0
+modbus_function_code=4
+modbus_register_quantity=1
+modbus_data_type=IEEE754
+modbus_word_endianness=high_first
+statistics=count
+statistics_bis=
+statistics_ter=
+
+[R1C4]
+active=false
+protocol_type=none
+sensor_type=MODBUS_OTHER
+address=0
+modbus_start_register=0
+modbus_function_code=4
+modbus_register_quantity=1
+modbus_data_type=IEEE754
+modbus_word_endianness=high_first
+statistics=count
+statistics_bis=
+statistics_ter=
+
+[R1C5]
+active=false
+protocol_type=none
+sensor_type=MODBUS_OTHER
+address=0
+modbus_start_register=0
+modbus_function_code=4
+modbus_register_quantity=1
+modbus_data_type=IEEE754
+modbus_word_endianness=high_first
+statistics=count
+statistics_bis=
+statistics_ter=
+
+[R1C6]
+active=false
+protocol_type=none
+sensor_type=MODBUS_OTHER
+address=0
+modbus_start_register=0
+modbus_function_code=4
+modbus_register_quantity=1
+modbus_data_type=IEEE754
+modbus_word_endianness=high_first
+statistics=count
+statistics_bis=
+statistics_ter=
+
+[R1C7]
+active=false
+protocol_type=none
+sensor_type=MODBUS_OTHER
+address=0
+modbus_start_register=0
+modbus_function_code=4
+modbus_register_quantity=1
+modbus_data_type=IEEE754
+modbus_word_endianness=high_first
+statistics=count
+statistics_bis=
+statistics_ter=
+
+[R1C8]
+active=false
+protocol_type=none
+sensor_type=MODBUS_OTHER
+address=0
+modbus_start_register=0
+modbus_function_code=4
+modbus_register_quantity=1
+modbus_data_type=IEEE754
+modbus_word_endianness=high_first
+statistics=count
+statistics_bis=
+statistics_ter=
+
+[I]
+active=true
+statistics=avg,max,min
+statistics_bis=
+statistics_ter=
+
+[V]
+active=true
+statistics=avg,max,min
+statistics_bis=
+statistics_ter=
+
+[T]
+active=true
+statistics=avg
+statistics_bis=
+statistics_ter=
+
+[switches_state]
+active=true
+statistics=first
+statistics_bis=
+statistics_ter=
+
+[User_1]
+name=Admin
+permissions=Admin
+active=true
+
+[User_2]
+name=User
+permissions=User
+active=true
+
+[User_3]
+name=Viewer
+permissions=Viewer
+active=true
+
+[User_4]
+name=Guest
+permissions=Guest
+active=true
+
+[Adjustment]
+cs1=199.86 μA
+
+[Sensor_1]
+active=true
+evals=1
+rate=1 s
+used_channels=C1
+model=Anemometer Thies First Class Advanced
+label=V1
+height=110
+type=anemometer
+serial_number=01244109
+model_id=6
+
+[Eval_1]
+statistics_bis=
+active=true
+formula=linear_cnt
+statistics=avg,max,min,stddev,count
+sensors=1
+statistics_ter=
+label=V1
+formula_params=C1,var_period,var_offset,var_slope,var_minimal_value
+type=wind_speed
+unit=m/s
+offset_unit=m/s
+var_offset=['0.2317']
+var_minimal_value=0
+slope_unit=m/s/I
+var_slope=['0.04582']
+minimal_value_unit=m/s
+var_period=1
+
+[Sensor_2]
+active=true
+evals=2
+rate=1 s
+used_channels=C2
+model=Anemometer Thies First Class Advanced
+label=V2
+height=110
+type=anemometer
+serial_number=09244800
+model_id=6
+
+[Eval_2]
+statistics_bis=
+active=true
+formula=linear_cnt
+statistics=avg,max,min,stddev,count
+sensors=2
+statistics_ter=
+label=V2
+formula_params=C2,var_period,var_offset,var_slope,var_minimal_value
+type=wind_speed
+unit=m/s
+offset_unit=m/s
+var_offset=['0.2288']
+var_minimal_value=0
+slope_unit=m/s/I
+var_slope=['0.04581']
+minimal_value_unit=m/s
+var_period=1
+
+[Sensor_3]
+active=true
+evals=3
+rate=1 s
+used_channels=C3
+model=Anemometer Thies First Class Advanced
+label=V3
+height=100
+type=anemometer
+serial_number=09244801
+model_id=6
+
+[Eval_3]
+statistics_bis=
+active=true
+formula=linear_cnt
+statistics=avg,max,min,stddev,count
+sensors=3
+statistics_ter=
+label=V3
+formula_params=C3,var_period,var_offset,var_slope,var_minimal_value
+type=wind_speed
+unit=m/s
+offset_unit=m/s
+var_offset=['0.2318']
+var_minimal_value=0
+slope_unit=m/s/I
+var_slope=['0.04577']
+minimal_value_unit=m/s
+var_period=1
+
+[Sensor_4]
+active=true
+evals=4
+rate=1 s
+used_channels=C4
+model=Anemometer Thies First Class Advanced
+label=V4
+height=90
+type=anemometer
+serial_number=09244802
+model_id=6
+
+[Eval_4]
+statistics_bis=
+active=true
+formula=linear_cnt
+statistics=avg,max,min,stddev,count
+sensors=4
+statistics_ter=
+label=V4
+formula_params=C4,var_period,var_offset,var_slope,var_minimal_value
+type=wind_speed
+unit=m/s
+offset_unit=m/s
+var_offset=['0.2421']
+var_minimal_value=0
+slope_unit=m/s/I
+var_slope=['0.04574']
+minimal_value_unit=m/s
+var_period=1
+
+[Sensor_5]
+active=true
+evals=5
+rate=1 s
+used_channels=C5
+model=Anemometer Thies First Class Advanced
+label=V5
+height=70
+type=anemometer
+serial_number=09244803
+model_id=6
+
+[Eval_5]
+statistics_bis=
+active=true
+formula=linear_cnt
+statistics=avg,max,min,stddev,count
+sensors=5
+statistics_ter=
+label=V5
+formula_params=C5,var_period,var_offset,var_slope,var_minimal_value
+type=wind_speed
+unit=m/s
+offset_unit=m/s
+var_offset=['0.2178']
+var_minimal_value=0
+slope_unit=m/s/I
+var_slope=['0.04584']
+minimal_value_unit=m/s
+var_period=1
+
+[Sensor_6]
+active=true
+evals=6
+rate=1 s
+used_channels=D1
+model=Wind Vane Thies First Class TMR heatable
+label=D1
+height=106
+type=wind_vane
+serial_number=06242574
+url_path=/products/wind-vanes/product-details/wind-vane-thies-first-class-tmr-heatable
+model_id=29
+digital_protocol=thies10bit
+
+[Eval_6]
+statistics_bis=
+active=true
+formula=windvane_dig
+statistics=avg,stddev,count
+sensors=6
+statistics_ter=
+label=D1
+formula_params=D1,var_offset,var_slope,var_offset_installation
+type=wind_direction
+unit=°
+offset_unit=°
+var_offset=0
+var_slope=0.3515625
+var_offset_installation=0.0
+
+[Sensor_7]
+active=true
+evals=7
+rate=1 s
+used_channels=D2
+model=Wind Vane Thies First Class TMR heatable
+label=D2
+height=90
+type=wind_vane
+serial_number=06242589
+url_path=/products/wind-vanes/product-details/wind-vane-thies-first-class-tmr-heatable
+model_id=29
+digital_protocol=thies10bit
+
+[Eval_7]
+statistics_bis=
+active=true
+formula=windvane_dig
+statistics=avg,stddev,count
+sensors=7
+statistics_ter=
+label=D2
+formula_params=D2,var_offset,var_slope,var_offset_installation
+type=wind_direction
+unit=°
+offset_unit=°
+var_offset=0
+var_slope=0.3515625
+var_offset_installation=0.0
+
+[Sensor_8]
+active=true
+evals=8
+rate=1 s
+used_channels=D3
+model=Wind Vane Thies First Class TMR heatable
+label=D3
+height=70
+type=wind_vane
+serial_number=06242590
+url_path=/products/wind-vanes/product-details/wind-vane-thies-first-class-tmr-heatable
+model_id=29
+digital_protocol=thies10bit
+
+[Eval_8]
+statistics_bis=
+active=true
+formula=windvane_dig
+statistics=avg,stddev,count
+sensors=8
+statistics_ter=
+label=D3
+formula_params=D3,var_offset,var_slope,var_offset_installation
+type=wind_direction
+unit=°
+offset_unit=°
+var_offset=0
+var_slope=0.3515625
+var_offset_installation=0.0
+
+[Sensor_9]
+active=true
+evals=9,10
+rate=1 s
+used_channels=A1,A2
+model=Temperature Humidity sensor Galltec active KPC T/H
+label=TH1
+height=10
+type=hygro_thermo
+serial_number=276788
+url_path=/products/wind-sensors/temperature-humidity-sensors/product-details/active-air-temperature-humidity-sensor-galltec-kp
+adc_range_u=1 V;10 V
+model_id=49
+
+[Eval_9]
+statistics_bis=
+active=true
+formula=linear
+statistics=avg,max,min,stddev,count
+sensors=9
+statistics_ter=
+label=TH1
+formula_params=A1,var_offset,var_slope
+type=temperature
+unit=°C
+offset_unit=°C
+var_offset=-30
+var_slope=100
+slope_unit=°C/V
+
+[Eval_10]
+statistics_bis=
+active=true
+formula=linear_humidity
+statistics=avg,max,min,stddev,count
+sensors=9
+statistics_ter=
+label=TH1
+formula_params=A2,var_clip,var_offset,var_slope
+type=humidity
+unit=°C
+offset_unit=°C
+var_offset=0
+var_slope=100
+slope_unit=°C/V
+var_clip=100
+
+[Sensor_10]
+active=true
+evals=11
+rate=1 s
+used_channels=A3
+model=Air Pressure Sensor Thies - 800..1060hPA
+label=P1
+height=10
+type=barometer
+serial_number=03240888
+adc_range_u=10 V
+model_id=192
+
+[Eval_11]
+statistics_bis=
+active=true
+formula=linear
+statistics=avg,max,min,stddev,count
+sensors=10
+statistics_ter=
+label=P1
+formula_params=A3,var_offset,var_slope
+type=air_pressure
+unit=hPa
+offset_unit=hPa
+var_offset=800
+var_slope=52
+slope_unit=hPa/V
+
