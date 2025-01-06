@@ -4,6 +4,7 @@ import copy
 import pandas as pd 
 import configparser
 import re 
+import sys
 from io import StringIO
 from datetime import datetime, timezone
 from ammonit import excel_reader_manufactureplan
@@ -31,7 +32,7 @@ class Generator():
         self.search_values  = ["Serial Number", "Slope", "Offset"]
         self.load_db()
         self.create_config_from_manufacturing_plan(manufacture_plan_path) 
-        self.load_db 
+
         
         
     def load_db(self) :
@@ -46,6 +47,7 @@ class Generator():
 
 
     def create_config_from_manufacturing_plan(self, manufacture_plan_path) :
+        
         self.validate_path(manufacture_plan_path)
         output_folder_path, certificates_folder = self.create_paths(manufacture_plan_path)
         self.validate_path(certificates_folder)
@@ -97,14 +99,12 @@ class Generator():
             else:
                 self.add_sensor(typ_no, label, serial_number, height)
         config = self.create_ini_config(output_folder_path)
-        print(output_folder_path)
         return config
         
 
     def validate_path(self, path): 
         if not os.path.exists(path):
             raise FileNotFoundError(f"The file '{path}' dosen´t exists")
-            return None
         else: pass 
 
     def create_paths(self, manufacture_plan_path):
@@ -286,20 +286,14 @@ class Generator():
             }
         }
         
-        """sucht nach dem ersten Treffer im Text 
-        /D ein nicht Zahlen Zeichen,
-        \d+ eine oder mehrere Ziffern als erste Gruppe,
-        LMS ein einzelnes Zeichen welches LM oder S sein muss 
-        .group(2) erste Gruppe sind die Zeichen - Zeite gruppe sind LM oder S 
-        der gefundene Buchstabe wird der Variabele datalogger_typ zugewiesen 
-        """ 
-        datalogger_typ = re.search(r"\D(\d+)([LMS])", self.name).group(2)
-        if datalogger_typ in channels:
+
+        datalogger_typ = re.search(r"\d{1,3}([LMS])\+?", self.name)
+        if datalogger_typ:
+            datalogger_typ = datalogger_typ.group(1)  # Extrahiert nur "L", "M", oder "S"
             self.channels = channels[datalogger_typ]
             self.name = f"Meteo-40{datalogger_typ}"
         else:
             raise ValueError(f"Unknown datalogger type: {self.name}")
-            
             
     def create_system_info(self):
 
@@ -512,5 +506,5 @@ class Generator():
     
 if __name__ == "__main__":
     print("*** CONFIG GENERATOR ***")
-    manufacture_plan_path =r"C:\Users\chris\Desktop\Abschlussprojekt\assets\project_template\01_Connection Planung\3034_KOR_ConnectionScheme_V2_VZ.xlsm"
+    manufacture_plan_path =r"C:\Users\kplec\Desktop\Abschlussprojekt\assets\project_template\01_Connection Planung\2900-1_AUS_ConnectionScheme_V3_IE.xlsm"
     c = Generator(manufacture_plan_path)
