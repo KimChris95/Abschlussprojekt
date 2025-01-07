@@ -62,7 +62,7 @@ def extract_slope_offset(serial_number, pdf_folder_path, search_values): # searc
         else: 
             slope_values[0] = re.sub(r"[^\d.\-+]", "", slope_values[0])
             offset_values[0] = re.sub(r"[^\d.\-+]", "", offset_values[0])
-        print(f"Serial : {serial_number} Slope : {slope_values} Offset : {offset_values}")
+        print(f"Serial\t: {serial_number} \nSlope\t: {slope_values} \nOffset\t: {offset_values}")
         return slope_values, offset_values
     else : 
         return None, None 

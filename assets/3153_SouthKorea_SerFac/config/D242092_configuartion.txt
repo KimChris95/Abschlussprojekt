@@ -2,7 +2,7 @@
 #----------------------------------------
 #
 #Data Logger Type                Meteo-40L
-#Serial Number                   D240130
+#Serial Number                   D242092
 #Number of Channels              12 Analog Voltage, 12 Counters, 2 Analog Current, 4 Current Sources, 8 Digital, 8 Switches, 8 RS485, 4 Period Measurement
 #Data Logger Location            unknown
 #RAM                             Total: 119 MiB, Used: 54 MiB, Available: 63 MiB
@@ -12,11 +12,11 @@
 #Software Version                2.1.8 (2023-01-19)
 #Bootloader Version              10395
 #Current Connections             Admin (192.168.1.0)
-#Date/time                       2025-01-07 13:33:41 UTC
+#Date/time                       2025-01-07 13:34:20 UTC
 #Created Sensors                 11
 
 [System]
-name=3153-2024
+name=3238-2024
 config_id=1.1.1711442282
 camera_url=
 camera_copy_to_usb=false
@@ -795,7 +795,7 @@ model=Anemometer Thies First Class Advanced
 label=V1
 height=110
 type=anemometer
-serial_number=01244109
+serial_number=01244162
 model_id=6
 
 [Eval_1]
@@ -810,10 +810,10 @@ formula_params=C1,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2317']
+var_offset=['0.2187']
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04582']
+var_slope=['0.04601']
 minimal_value_unit=m/s
 var_period=1
 
@@ -826,7 +826,7 @@ model=Anemometer Thies First Class Advanced
 label=V2
 height=110
 type=anemometer
-serial_number=09244800
+serial_number=01244163
 model_id=6
 
 [Eval_2]
@@ -841,10 +841,10 @@ formula_params=C2,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2288']
+var_offset=['0.2603']
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04581']
+var_slope=['0.04580']
 minimal_value_unit=m/s
 var_period=1
 
@@ -857,7 +857,7 @@ model=Anemometer Thies First Class Advanced
 label=V3
 height=100
 type=anemometer
-serial_number=09244801
+serial_number=01244164
 model_id=6
 
 [Eval_3]
@@ -872,10 +872,10 @@ formula_params=C3,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2318']
+var_offset=['0.2234']
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04577']
+var_slope=['0.04602']
 minimal_value_unit=m/s
 var_period=1
 
@@ -888,7 +888,7 @@ model=Anemometer Thies First Class Advanced
 label=V4
 height=90
 type=anemometer
-serial_number=09244802
+serial_number=01244165
 model_id=6
 
 [Eval_4]
@@ -903,10 +903,10 @@ formula_params=C4,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2421']
+var_offset=['0.2434']
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04574']
+var_slope=['0.04580']
 minimal_value_unit=m/s
 var_period=1
 
@@ -919,7 +919,7 @@ model=Anemometer Thies First Class Advanced
 label=V5
 height=70
 type=anemometer
-serial_number=09244803
+serial_number=01244166
 model_id=6
 
 [Eval_5]
@@ -934,10 +934,10 @@ formula_params=C5,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2178']
+var_offset=['0.2441']
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04584']
+var_slope=['0.04583']
 minimal_value_unit=m/s
 var_period=1
 
@@ -950,7 +950,7 @@ model=Wind Vane Thies First Class TMR heatable
 label=D1
 height=106
 type=wind_vane
-serial_number=06242574
+serial_number=06242593
 url_path=/products/wind-vanes/product-details/wind-vane-thies-first-class-tmr-heatable
 model_id=29
 digital_protocol=thies10bit
@@ -980,7 +980,7 @@ model=Wind Vane Thies First Class TMR heatable
 label=D2
 height=90
 type=wind_vane
-serial_number=06242589
+serial_number=06242594
 url_path=/products/wind-vanes/product-details/wind-vane-thies-first-class-tmr-heatable
 model_id=29
 digital_protocol=thies10bit
@@ -1010,7 +1010,7 @@ model=Wind Vane Thies First Class TMR heatable
 label=D3
 height=70
 type=wind_vane
-serial_number=06242590
+serial_number=06242595
 url_path=/products/wind-vanes/product-details/wind-vane-thies-first-class-tmr-heatable
 model_id=29
 digital_protocol=thies10bit
@@ -1040,7 +1040,7 @@ model=Temperature Humidity sensor Galltec active KPC T/H
 label=TH1
 height=10
 type=hygro_thermo
-serial_number=276788
+serial_number=284656
 url_path=/products/wind-sensors/temperature-humidity-sensors/product-details/active-air-temperature-humidity-sensor-galltec-kp
 adc_range_u=1 V;10 V
 model_id=49
@@ -1087,7 +1087,7 @@ model=Air Pressure Sensor Thies - 800..1060hPA
 label=P1
 height=10
 type=barometer
-serial_number=03240888
+serial_number=07240928
 adc_range_u=10 V
 model_id=192
 

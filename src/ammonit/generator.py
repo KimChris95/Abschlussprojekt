@@ -4,19 +4,32 @@ import copy
 import pandas as pd 
 import configparser
 import re 
-import sys
 from io import StringIO
 from datetime import datetime, timezone
 from ammonit import excel_reader_manufactureplan
 from ammonit import pdf_extractor_slope_offset
-from sensor import WindVane, Anemometer, Barometer, Temperature_and_Humidity
 from ammonit import static_info
 from ammonit import ASSETS_DIR
+from ammonit.sensor import  WindVane, Anemometer, Barometer, Temperature_and_Humidity
 
 
 
 class Generator(): 
+    """
+    Diese Klasse stellt einen Generator für Sensoren dar, der für die Erstellung, 
+    Verwaltung und Aktivierung von Sensorobjekten zuständig ist.
     
+    Die Klasse verwendet eine Sammlung von Sensor-Typen und ermöglicht das Erstellen 
+    von Sensorobjekten anhand der Typen und deren spezifischen Konfigurationen.
+    
+    Attribute:
+        sensor_classes (dict): Ein Wörterbuch, das die verfügbaren Sensor-Klassen 
+                                für verschiedene Sensortypen enthält.
+        sensor_list (list): Eine Liste der erzeugten Sensorobjekte.
+        sensor_index (int): Der Index für den nächsten Sensor, der hinzugefügt wird.
+        eval_index (int): Der Index für die Evaluierung der Sensoren.
+    
+    """
     sensor_classes = {
         "anemometer": Anemometer,
         "wind_vane":  WindVane,
@@ -29,6 +42,17 @@ class Generator():
 
 
     def __init__(self, manufacture_plan_path):
+        """
+        Initialisiert das Objekt und führt die notwendigen Konfigurations- und 
+        Datenbankoperationen aus.
+        
+        Liest die Datenbank, lädt die Konfigurationsdateien basierend auf dem 
+        angegebenen Fertigungsplanpfad und erstellt die Systemkonfiguration.
+        
+        Args:
+            manufacture_plan_path (str): Der Pfad zur Fertigungsplan-Datei, die 
+                                          die Sensordaten enthält.
+        """
         self.search_values  = ["Serial Number", "Slope", "Offset"]
         self.load_db()
         self.create_config_from_manufacturing_plan(manufacture_plan_path) 
@@ -36,6 +60,19 @@ class Generator():
         
         
     def load_db(self) :
+        """
+        Lädt die Sensordatenbank aus einer Excel-Datei.
+        
+        Diese Methode liest die Excel-Datei `sensor_db.xlsx` aus dem Verzeichnis `ASSETS_DIR`, konvertiert 
+        die `model_id`-Spalte in Ganzzahlen und ersetzt alle `NaN`-Werte durch `None`. Danach wird die 
+        Datenbank als Dictionary im `index`-Format gespeichert.
+        
+        Dies ermöglicht den einfachen Zugriff auf die Sensorinformationen, indem die Indizes als Schlüssel 
+        verwendet werden.
+        
+        Raises:
+            FileNotFoundError: Falls die Excel-Datei im angegebenen Verzeichnis nicht gefunden wird.
+        """
         db = pd.read_excel(os.path.join(ASSETS_DIR,"sensor_db.xlsx"),index_col=0)
         db["model_id"] = db["model_id"].astype("int")
         
@@ -47,7 +84,23 @@ class Generator():
 
 
     def create_config_from_manufacturing_plan(self, manufacture_plan_path) :
+        """
+        Erstellt eine Konfiguration basierend auf einem Herstellungsplan.
         
+        Diese Methode liest die Informationen aus dem angegebenen Herstellungsplan, extrahiert die Sensordaten
+        und erstellt eine Konfigurationsdatei. Falls für Sensoren Kalibrierinformationen (Steigung und Offset) 
+        erforderlich sind, werden diese aus den zugehörigen Zertifikaten extrahiert. Die Methode führt dann alle 
+        notwendigen Schritte zur Initialisierung und Erstellung der Konfiguration durch.
+        
+        Args:
+            manufacture_plan_path (str): Der Pfad zur Excel-Datei des Herstellungsplans.
+        
+        Returns:
+            config (configparser.RawConfigParser): Das erstellte Konfigurationsobjekt, das alle Informationen enthält.
+        
+        Raises:
+            FileNotFoundError: Falls die angegebene Datei oder ein erforderlicher Ordner nicht gefunden wird.
+        """
         self.validate_path(manufacture_plan_path)
         output_folder_path, certificates_folder = self.create_paths(manufacture_plan_path)
         self.validate_path(certificates_folder)
@@ -103,11 +156,38 @@ class Generator():
         
 
     def validate_path(self, path): 
+        """
+        Überprüft, ob der angegebene Pfad existiert.
+        
+        Diese Methode überprüft, ob der angegebene Dateipfad existiert. Falls der Pfad nicht 
+        gefunden wird, wird eine `FileNotFoundError`-Ausnahme ausgelöst.
+        
+        Args:
+            path (str): Der Pfad zur zu überprüfenden Datei oder dem Verzeichnis.
+        
+        Raises:
+            FileNotFoundError: Falls der angegebene Pfad nicht existiert.
+        """
         if not os.path.exists(path):
             raise FileNotFoundError(f"The file '{path}' dosen´t exists")
         else: pass 
 
     def create_paths(self, manufacture_plan_path):
+        """
+        Erstellt die benötigten Ordnerpfade für das Projekt.
+        
+        Diese Methode nimmt den Pfad zum Herstellungsplan, extrahiert den Projektordner und
+        erstellt erforderliche Unterordner, falls diese noch nicht existieren. Der Hauptordner 
+        "config" wird dabei erstellt, und auch der Ordner für Zertifikate wird ermittelt.
+        
+        Args:
+            manufacture_plan_path (str): Der Pfad zum Herstellungsplan.
+        
+        Returns:
+            tuple: Ein Tupel bestehend aus zwei Pfaden:
+                - Der Pfad zum "config"-Ordner im Projektverzeichnis.
+                - Der Pfad zum "06_Certificates"-Ordner im Projektverzeichnis.
+        """
         folder_name = "config"
         manufacture_plan_folder = os.path.dirname(manufacture_plan_path)
         project_folder = os.path.dirname(manufacture_plan_folder)
@@ -118,6 +198,27 @@ class Generator():
         return output_folder_path, certificates_folder 
 
     def add_sensor(self, type_no, name, serial, height, cert_no=None, slope=None, offset=None):
+        """
+        Fügt einen neuen Sensor zur Konfiguration hinzu.
+        
+        Diese Methode erstellt ein Sensorobjekt, basierend auf der `type_no` und anderen 
+        Konfigurationsparametern. Wenn der Sensor in der Datenbank (`self.db`) existiert, 
+        wird eine Kopie der Konfiguration erstellt und aktualisiert. Das Sensorobjekt wird dann 
+        erzeugt und der Liste der Sensoren hinzugefügt. Außerdem werden die Kanäle für den Sensor aktiviert.
+        
+        Args:
+            type_no (str): Die Sensor-Identifikationsnummer.
+            name (str): Der Name des Sensors.
+            serial (str): Die Seriennummer des Sensors.
+            height (float): Die Höhe des Sensors.
+            cert_no (str, optional): Die Zertifikatsnummer des Sensors (Standard: None).
+            slope (float, optional): Der Neigungswert des Sensors (Standard: None).
+            offset (float, optional): Der Offsetwert des Sensors (Standard: None).
+        
+        Returns:
+            object: Das Sensorobjekt, das zur Sensorenliste hinzugefügt wurde. 
+                    Gibt `None` zurück, wenn ein Fehler auftritt.
+        """
         type_no_x = self.convert_type_no(type_no) 
 
         if type_no_x not in self.db:
@@ -153,6 +254,19 @@ class Generator():
         return sensor_obj
 
     def convert_type_no(self, type_no):
+        """
+        Konvertiert eine `type_no` in das Format `4.3351.x0.000`.
+        
+        Diese Methode nimmt eine `type_no` im Format `4.3351.10.000` oder `4.3351.00.000`, 
+        teilt sie anhand des Punkts und ersetzt den dritten Teil der `type_no` durch `x0`, 
+        wenn die Länge der Teile 4 beträgt und der erste Teil `4` ist.
+        
+        Args:
+            type_no (str): Die zu konvertierende `type_no` im Format `4.3351.x0.000`.
+        
+        Returns:
+            str: Die konvertierte `type_no` im Format `4.3351.x0.000`.
+        """
         parts = type_no.split(".")
         if len(parts) == 4 and parts[0] == "4":
                 parts[2] = "x0"
@@ -160,6 +274,19 @@ class Generator():
 
 
     def activate_channel(self, sensor_obj):
+        """
+        Aktiviert die Kanäle eines Sensors und wendet die entsprechenden Aktivierungswerte an.
+        
+        Diese Methode überprüft die verwendeten Kanäle des übergebenen `sensor_obj` und 
+        aktiviert die entsprechenden Kanäle in `self.channel_mapping`. Die Werte für die 
+        Kanäle werden aus den Aktivierungswerten des Sensors (`activision_values`) entnommen 
+        und auf die Kanäle angewendet. Falls ein `range`-Wert vorhanden ist, wird dieser 
+        entsprechend angepasst.
+        
+        Args:
+            sensor_obj: Das Sensorobjekt, dessen Kanäle aktiviert werden sollen. 
+                        Es sollte eine `used_channels`-Eigenschaft und eine `activision_values`-Eigenschaft haben.
+        """
         sensor_channels = sensor_obj._sensor["used_channels"].split(",")
         for index_one, (channels, keys) in enumerate(self.channel_mapping.items()) :
             for key, value in keys.items():
@@ -176,6 +303,21 @@ class Generator():
                             value.update(value_extracted)
 
     def format_value(self, value):
+        """
+        Formatiert den Wert für die Verwendung in einer INI-Datei.
+        
+        Diese Methode konvertiert den übergebenen Wert in einen String und nimmt 
+        spezielle Formatierungen vor, um sicherzustellen, dass der Wert korrekt 
+        in einer INI-Konfigurationsdatei gespeichert werden kann. Es werden verschiedene 
+        Bedingungen überprüft, darunter die Behandlung von `None`, `True`, `False` und 
+        speziellen Zeichen wie `´`.
+        
+        Args:
+            value: Der Wert, der formatiert werden soll. Kann beliebigen Typs sein.
+        
+        Returns:
+            str: Der formatierte Wert als String.
+        """
         string_value = str(value)
         if value is None:
             return ''
@@ -193,24 +335,24 @@ class Generator():
         
     def write_config(self, ini, path_output_folder) :
         """
-            Schreibt eine Konfiguration in eine Datei und ergänzt sie mit Systeminformationen und Kommentaren.
-        
-            Diese Methode verwendet die `StringIO`-Klasse, um die Konfigurationsdaten im Speicher zwischenzuspeichern, bevor sie in eine Datei geschrieben werden.
-            Dadurch entfällt der direkte Zugriff auf physische Dateien während der Verarbeitung. Die Konfiguration wird zusätzlich mit
-            systembezogenen Kommentaren ergänzt.
-        
-            Args:
-                ini (ConfigParser): Das ConfigParser-Objekt, das die Konfigurationsdaten enthält.
-                path_output_folder (str): Der Pfad zum Ausgabeverzeichnis, in dem die Konfigurationsdatei gespeichert wird.
-        
-            Ablauf:
-                1. Die Methode schreibt die Konfigurationsdaten mithilfe von `ConfigParser.write` in ein `StringIO`-Objekt.
-                2. Mit `.getvalue()` wird der gesamte Inhalt aus dem `StringIO`-Objekt als String extrahiert.
-                3. Systeminformationen und zusätzliche Kommentare werden dem Konfigurationsstring vorangestellt.
-                4. Der vollständige Text wird in eine Datei im angegebenen Ausgabeverzeichnis geschrieben.
-        
-            Returns:
-                str: Die endgültige Konfigurationsdatei als String, einschließlich Systeminformationen und Kommentaren.
+        Schreibt eine Konfiguration in eine Datei und ergänzt sie mit Systeminformationen und Kommentaren.
+    
+        Diese Methode verwendet die `StringIO`-Klasse, um die Konfigurationsdaten im Speicher zwischenzuspeichern, bevor sie in eine Datei geschrieben werden.
+        Dadurch entfällt der direkte Zugriff auf physische Dateien während der Verarbeitung. Die Konfiguration wird zusätzlich mit
+        systembezogenen Kommentaren ergänzt.
+    
+        Args:
+            ini (ConfigParser): Das ConfigParser-Objekt, das die Konfigurationsdaten enthält.
+            path_output_folder (str): Der Pfad zum Ausgabeverzeichnis, in dem die Konfigurationsdatei gespeichert wird.
+    
+        Ablauf:
+            1. Die Methode schreibt die Konfigurationsdaten mithilfe von `ConfigParser.write` in ein `StringIO`-Objekt.
+            2. Mit `.getvalue()` wird der gesamte Inhalt aus dem `StringIO`-Objekt als String extrahiert.
+            3. Systeminformationen und zusätzliche Kommentare werden dem Konfigurationsstring vorangestellt.
+            4. Der vollständige Text wird in eine Datei im angegebenen Ausgabeverzeichnis geschrieben.
+    
+        Returns:
+            str: Die endgültige Konfigurationsdatei als String, einschließlich Systeminformationen und Kommentaren.
         """
         temp = StringIO()
         ini.write(temp, space_around_delimiters=False)
@@ -229,28 +371,30 @@ class Generator():
 
     def initialize_channels(self):
         """
-            Mit der Dict Comprehension wird für den Channel R1C 8 listen erstellt mit jeweils 8 einträgen
-            i steht für die Keys in diesem fall 1 - 8 und für jeden eintrag wird ein liste
-            erstellt mit einer Range zwischen 1 und 9 die endziffer ist nicht enthalten
-            also bekomme ich 8 listen mit 8 einträgen.
-            R1C = {}
-            for i in range(1,9) :
-                valuelist = []
-                for y in range(1,9):
-                    valuelist.append(y)
-                R1C[i] = value_list
+        Initialisiert die Kanäle basierend auf dem Typ des Dataloggers, der aus dem Attribut `self.name` extrahiert wird.
+    
+        Die Funktion erstellt eine verschachtelte Dictionary-Struktur mit Kanälen, die unterschiedliche Konfigurationen 
+        für verschiedene Datalogger-Typen ("L", "M", "S") enthalten. Die Schlüssel und Werte definieren Kanäle und 
+        deren unterstützte Bereiche.
+    
+        Die Funktion nutzt:
+        - Dict Comprehensions für die effiziente Erstellung von Listen.
+        - Reguläre Ausdrücke, um den Datalogger-Typ aus dem Attribut `self.name` zu extrahieren.
+    
+        Der erzeugte Kanal wird unter `self.channels` gespeichert, und `self.name` wird entsprechend dem Typ aktualisiert.
+    
+        Raises:
+            ValueError: Wenn der Typ des Dataloggers nicht ermittelt werden kann.
+    
+        Details:
+            - R1C: Ein Dictionary mit 8 Listen als Werte, wobei jede Liste Werte von 1 bis 8 enthält.
+            - Channels-Struktur:
+                - M: Enthält Kanäle für "C", "D", "A", "AC", "P", "R", "R1C", "Switch", "Period".
+                - S: Enthält reduzierte Kanäle für "C", "D", "A", "AC", "P", "R", "R1C", "Switch".
+                - L: Erweiterte Kanäle mit mehr Einträgen für "C", "D", "A", "AC", "P", "R", "R1C", "Switch", "Period".
         """
         R1C = {i: list(range(1, 9)) for i in range(1, 9)} # gruselig
 
-        """
-            list(range(1,9))
-            range(1,9) erzeugt eine sequenz von einschlieslich 1 und ausschließlich 9 das heist 1 - 8
-            durch list(range(1,9)) wandle ich diese sequenz in eine Liste um
-            einfach Methode um listen schnell und effizient zu erstellen.
-            value_list = []
-            for i in range(1,9):
-                value_list.append(i)
-        """
         channels = {
             "M": {
                 "C": list(range(1, 9)),
@@ -285,9 +429,10 @@ class Generator():
                 "Period": list(range(1, 5))
             }
         }
-        
 
+        print(self.name)
         datalogger_typ = re.search(r"\d{1,3}([LMS])\+?", self.name)
+        print(type(datalogger_typ))
         if datalogger_typ:
             datalogger_typ = datalogger_typ.group(1)  # Extrahiert nur "L", "M", oder "S"
             self.channels = channels[datalogger_typ]
@@ -296,7 +441,26 @@ class Generator():
             raise ValueError(f"Unknown datalogger type: {self.name}")
             
     def create_system_info(self):
-
+        """
+        Erstellt und speichert eine Übersicht der Systeminformationen des Ammonit-Datenloggers.
+        
+        Diese Funktion generiert eine Liste von Informationen zum aktuellen Zustand des Datenloggers, 
+        einschließlich des Typs, der Seriennummer, der verfügbaren Kanäle und anderer relevanter 
+        Systemdaten. Die generierten Informationen werden als Attribut `self.system_info` gespeichert.
+        
+        Die enthaltenen Informationen umfassen:
+            - Datenlogger-Typ (`self.name`)
+            - Seriennummer (`self.serial_number`)
+            - Anzahl der jeweiligen Kanäle
+            - Standortinformationen (standardmäßig "unknown")
+            - Speicherinformationen (RAM, System- und Quellenspeicher)
+            - Anzahl der Statistikdateien
+            - Software- und Bootloader-Versionen
+            - Aktuelle Verbindungen
+            - Zeitstempel im UTC-Format
+        
+        Der Zeitstempel wird mit der aktuellen UTC-Zeit generiert.
+        """
         now_utc = datetime.now(timezone.utc)
         timestamp = now_utc.strftime('%Y-%m-%d %H:%M:%S UTC')
         period_measurement_count = len(self.channels.get('Period', []))
@@ -362,7 +526,17 @@ class Generator():
         }
 
     def create_channels(self):
-
+        """
+        Initialisiert und konfiguriert die Kanäle des Datenloggers.
+    
+        Diese Methode erstellt und konfiguriert die Kanäle für verschiedene Typen (z. B. 
+        "A" für analog, "C" für Zähler, "D" für digital) basierend auf vordefinierten 
+        Einstellungen in `channel_dict`. Die Kanäle werden in `self.channel_mapping` 
+        abgelegt.
+    
+        Die Funktion verarbeitet maximal 7 Kanaltypen. Für "R1C" wird eine spezielle 
+        Hierarchie für Subkanäle berücksichtigt.
+        """
         self.analog_channels = {}
         self.counter_channels = {}
         self.digital_channels = {}
@@ -467,17 +641,29 @@ class Generator():
                     for sub_number, sub_channels in numbers.items():
                         for sub_channel in sub_channels:
                             key = f"{channel_type}{sub_number}"
-
                             self.channel_mapping[channel_type][key] = copy.deepcopy(channel_dict[channel_type])
   
     def create_ini_config(self, path_output_folder):
+        """
+        Erstellt eine INI-Konfigurationsdatei aus den Systeminformationen und Kanälen.
+        
+        Diese Methode erstellt eine INI-Konfigurationsdatei, die verschiedene Konfigurationsdaten 
+        aus `self.system`, `static_info.static_config` und den Kanälen (`analog_channels`, 
+        `ac_channels`, `counter_channels`, etc.) kombiniert. Die Werte werden in einem 
+        `configparser.RawConfigParser`-Objekt organisiert, und die Konfiguration wird dann 
+        an den angegebenen Pfad ausgegeben.
+        
+        Der Prozess entfernt ein abschließendes Komma in der "order"-Sektion von 
+        `static_info.static_config["Evaluation"]` und fügt alle relevanten Daten in die INI-Datei ein.
+        
+        Args:
+            path_output_folder (str): Der Pfad, an dem die INI-Konfigurationsdatei gespeichert werden soll.
+        
+        Returns:
+            str: Eine Erfolgsmeldung, wenn die INI-Datei erfolgreich erstellt wurde.
+        """
         config = configparser.RawConfigParser()
-        """
-            Aufteilung in static_config_dicts und static_config_dicts_over_sensor da zwischen diese Parts die Channels müssen
-            Durch ** werden die Dicts ausgepackt und an ein neues Dict in diesem Fall ini angehängt.
-        """
         static_info.static_config["Evaluation"]["order"] = static_info.static_config["Evaluation"]["order"][:-1]
-        #Entfernt ein "," am Ende
 
         ini = {**self.system, **static_info.static_config,
                **self.analog_channels,**self.ac_channels, **self.counter_channels, **self.p_channels , **self.digital_channels,
@@ -506,5 +692,5 @@ class Generator():
     
 if __name__ == "__main__":
     print("*** CONFIG GENERATOR ***")
-    manufacture_plan_path =r"C:\Users\chris\Desktop\Abschlussprojekt\assets\3153_SouthKorea_SerFac\01_Connection Planung\3153_KOR_ConnectionScheme_V1_VZ.xlsm"
+    manufacture_plan_path =r"C:\Users\kplec\Desktop\Abschlussprojekt\assets\3153_SouthKorea_SerFac\01_Connection Planung\3238_KOR_ConnectionScheme_V2_VZ.xlsm"
     c = Generator(manufacture_plan_path)
