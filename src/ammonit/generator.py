@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-import os
+import os, sys 
+script_dir = os.path.dirname(os.path.abspath(__file__)) 
+project_dir = os.path.dirname(os.path.dirname(script_dir))
+src_dir = os.path.join(project_dir, 'src')
+sys.path.append(src_dir)
 import copy 
 import pandas as pd 
 import configparser
@@ -11,6 +15,7 @@ from ammonit import pdf_extractor_slope_offset
 from ammonit import static_info
 from ammonit import ASSETS_DIR
 from ammonit.sensor import  WindVane, Anemometer, Barometer, Temperature_and_Humidity
+
 
 
 
@@ -692,5 +697,7 @@ class Generator():
     
 if __name__ == "__main__":
     print("*** CONFIG GENERATOR ***")
-    manufacture_plan_path =r"C:\Users\kplec\Desktop\Abschlussprojekt\assets\3153_SouthKorea_SerFac\01_Connection Planung\3238_KOR_ConnectionScheme_V2_VZ.xlsm"
-    c = Generator(manufacture_plan_path)
+    filepath = sys.argv[1]
+    programm = Generator(filepath)
+    #manufacture_plan_path =r"C:\Users\kplec\Desktop\Abschlussprojekt\assets\3153_SouthKorea_SerFac\01_Connection Planung\3238_KOR_ConnectionScheme_V2_VZ.xlsm"
+    #c = Generator(manufacture_plan_path)
