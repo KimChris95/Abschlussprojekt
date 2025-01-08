@@ -116,7 +116,11 @@ class Generator():
         self.name = project_informations[1]
         self.serial_number = project_informations[2] 
         ##############
-        self.initialize_channels()
+        try: 
+            self.initialize_channels()
+        except ValueError as e:
+            print("Falscher Datenlogger")
+            sys.exit(1) 
         self.create_system_info()
         self.create_channels()
         self.create_system_dict()
@@ -239,9 +243,9 @@ class Generator():
         })
         
         if slope is not None: 
-            cfg["slope"] = slope
+            cfg["slope"] = slope[0]
         if offset is not None: 
-            cfg["offset"] = offset
+            cfg["offset"] = offset[0]
             
         sensor_class = self.sensor_classes.get(cfg["type"].strip())
         if not sensor_class:
@@ -437,7 +441,6 @@ class Generator():
 
         print(self.name)
         datalogger_typ = re.search(r"\d{1,3}([LMS])\+?", self.name)
-        print(type(datalogger_typ))
         if datalogger_typ:
             datalogger_typ = datalogger_typ.group(1)  # Extrahiert nur "L", "M", oder "S"
             self.channels = channels[datalogger_typ]

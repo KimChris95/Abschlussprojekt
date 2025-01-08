@@ -12,7 +12,7 @@
 #Software Version                2.1.8 (2023-01-19)
 #Bootloader Version              10395
 #Current Connections             Admin (192.168.1.0)
-#Date/time                       2025-01-08 08:58:13 UTC
+#Date/time                       2025-01-08 11:07:28 UTC
 #Created Sensors                 11
 
 [System]
@@ -810,10 +810,10 @@ formula_params=C1,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2187']
+var_offset=0.2187
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04601']
+var_slope=0.04601
 minimal_value_unit=m/s
 var_period=1
 
@@ -841,10 +841,10 @@ formula_params=C2,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2603']
+var_offset=0.2603
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04580']
+var_slope=0.04580
 minimal_value_unit=m/s
 var_period=1
 
@@ -872,10 +872,10 @@ formula_params=C3,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2234']
+var_offset=0.2234
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04602']
+var_slope=0.04602
 minimal_value_unit=m/s
 var_period=1
 
@@ -903,10 +903,10 @@ formula_params=C4,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2434']
+var_offset=0.2434
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04580']
+var_slope=0.04580
 minimal_value_unit=m/s
 var_period=1
 
@@ -934,10 +934,10 @@ formula_params=C5,var_period,var_offset,var_slope,var_minimal_value
 type=wind_speed
 unit=m/s
 offset_unit=m/s
-var_offset=['0.2441']
+var_offset=0.2441
 var_minimal_value=0
 slope_unit=m/s/I
-var_slope=['0.04583']
+var_slope=0.04583
 minimal_value_unit=m/s
 var_period=1
 

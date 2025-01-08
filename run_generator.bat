@@ -1,5 +1,5 @@
 @echo off
-set /p FILEPATH="Bitte den Dateipfad eingeben: "
+set /p FILEPATH="Bitte den Dateipfad zum Herstellungsplan eingeben: "
 set FILEPATH=%FILEPATH:"=%
 if "%FILEPATH%"=="" (
     echo Es wurde kein Pfad eingegeben. Das Programm wird beendet.
