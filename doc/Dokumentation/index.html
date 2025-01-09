@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html lang="de" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to Konfigurationsgenerator’s documentation! &#8212; Konfigurationsgenerator 14.01.2025 Dokumentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=61cd365c" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=3b37fd6a"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=70a09b52"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="genindex.html" />
+    <link rel="search" title="Suche" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="welcome-to-konfigurationsgenerator-s-documentation">
+<h1>Welcome to Konfigurationsgenerator’s documentation!<a class="headerlink" href="#welcome-to-konfigurationsgenerator-s-documentation" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Stichwortverzeichnis</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Modulindex</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Suche</span></a></p></li>
+</ul>
+<dl class="py class" id="module-generator">
+<dt class="sig sig-object py" id="generator.Generator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generator.</span></span><span class="sig-name descname"><span class="pre">Generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manufacture_plan_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Diese Klasse stellt einen Generator für Sensoren dar, der für die Erstellung, 
+Verwaltung und Aktivierung von Sensorobjekten zuständig ist.</p>
+<p>Die Klasse verwendet eine Sammlung von Sensor-Typen und ermöglicht das Erstellen 
+von Sensorobjekten anhand der Typen und deren spezifischen Konfigurationen.</p>
+<dl>
+<dt>Attribute:</dt><dd><dl class="simple">
+<dt>sensor_classes (dict): Ein Wörterbuch, das die verfügbaren Sensor-Klassen </dt><dd><p>für verschiedene Sensortypen enthält.</p>
+</dd>
+</dl>
+<p>sensor_list (list): Eine Liste der erzeugten Sensorobjekte.
+sensor_index (int): Der Index für den nächsten Sensor, der hinzugefügt wird.
+eval_index (int): Der Index für die Evaluierung der Sensoren.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.activate_channel">
+<span class="sig-name descname"><span class="pre">activate_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.activate_channel" title="Link to this definition">¶</a></dt>
+<dd><p>Aktiviert die Kanäle eines Sensors und wendet die entsprechenden Aktivierungswerte an.</p>
+<p>Diese Methode überprüft die verwendeten Kanäle des übergebenen <cite>sensor_obj</cite> und 
+aktiviert die entsprechenden Kanäle in <cite>self.channel_mapping</cite>. Die Werte für die 
+Kanäle werden aus den Aktivierungswerten des Sensors (<cite>activision_values</cite>) entnommen 
+und auf die Kanäle angewendet. Falls ein <cite>range</cite>-Wert vorhanden ist, wird dieser 
+entsprechend angepasst.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>sensor_obj: Das Sensorobjekt, dessen Kanäle aktiviert werden sollen. </dt><dd><p>Es sollte eine <cite>used_channels</cite>-Eigenschaft und eine <cite>activision_values</cite>-Eigenschaft haben.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.add_sensor">
+<span class="sig-name descname"><span class="pre">add_sensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_no</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_no</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.add_sensor" title="Link to this definition">¶</a></dt>
+<dd><p>Fügt einen neuen Sensor zur Konfiguration hinzu.</p>
+<p>Diese Methode erstellt ein Sensorobjekt, basierend auf der <cite>type_no</cite> und anderen 
+Konfigurationsparametern. Wenn der Sensor in der Datenbank (<cite>self.db</cite>) existiert, 
+wird eine Kopie der Konfiguration erstellt und aktualisiert. Das Sensorobjekt wird dann 
+erzeugt und der Liste der Sensoren hinzugefügt. Außerdem werden die Kanäle für den Sensor aktiviert.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>type_no (str): Die Sensor-Identifikationsnummer.
+name (str): Der Name des Sensors.
+serial (str): Die Seriennummer des Sensors.
+height (float): Die Höhe des Sensors.
+cert_no (str, optional): Die Zertifikatsnummer des Sensors (Standard: None).
+slope (float, optional): Der Neigungswert des Sensors (Standard: None).
+offset (float, optional): Der Offsetwert des Sensors (Standard: None).</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>object: Das Sensorobjekt, das zur Sensorenliste hinzugefügt wurde. </dt><dd><p>Gibt <cite>None</cite> zurück, wenn ein Fehler auftritt.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.convert_type_no">
+<span class="sig-name descname"><span class="pre">convert_type_no</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_no</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.convert_type_no" title="Link to this definition">¶</a></dt>
+<dd><p>Konvertiert eine <cite>type_no</cite> in das Format <cite>4.3351.x0.000</cite>.</p>
+<p>Diese Methode nimmt eine <cite>type_no</cite> im Format <cite>4.3351.10.000</cite> oder <cite>4.3351.00.000</cite>, 
+teilt sie anhand des Punkts und ersetzt den dritten Teil der <cite>type_no</cite> durch <cite>x0</cite>, 
+wenn die Länge der Teile 4 beträgt und der erste Teil <cite>4</cite> ist.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>type_no (str): Die zu konvertierende <cite>type_no</cite> im Format <cite>4.3351.x0.000</cite>.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Die konvertierte <cite>type_no</cite> im Format <cite>4.3351.x0.000</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.create_channels">
+<span class="sig-name descname"><span class="pre">create_channels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.create_channels" title="Link to this definition">¶</a></dt>
+<dd><p>Initialisiert und konfiguriert die Kanäle des Datenloggers.</p>
+<p>Diese Methode erstellt und konfiguriert die Kanäle für verschiedene Typen (z. B. 
+„A“ für analog, „C“ für Zähler, „D“ für digital) basierend auf vordefinierten 
+Einstellungen in <cite>channel_dict</cite>. Die Kanäle werden in <cite>self.channel_mapping</cite> 
+abgelegt.</p>
+<p>Die Funktion verarbeitet maximal 7 Kanaltypen. Für „R1C“ wird eine spezielle 
+Hierarchie für Subkanäle berücksichtigt.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.create_config_from_manufacturing_plan">
+<span class="sig-name descname"><span class="pre">create_config_from_manufacturing_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manufacture_plan_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.create_config_from_manufacturing_plan" title="Link to this definition">¶</a></dt>
+<dd><p>Erstellt eine Konfiguration basierend auf einem Herstellungsplan.</p>
+<p>Diese Methode liest die Informationen aus dem angegebenen Herstellungsplan, extrahiert die Sensordaten
+und erstellt eine Konfigurationsdatei. Falls für Sensoren Kalibrierinformationen (Steigung und Offset) 
+erforderlich sind, werden diese aus den zugehörigen Zertifikaten extrahiert. Die Methode führt dann alle 
+notwendigen Schritte zur Initialisierung und Erstellung der Konfiguration durch.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>manufacture_plan_path (str): Der Pfad zur Excel-Datei des Herstellungsplans.</p>
+</dd>
+<dt>Returns:</dt><dd><p>config (configparser.RawConfigParser): Das erstellte Konfigurationsobjekt, das alle Informationen enthält.</p>
+</dd>
+<dt>Raises:</dt><dd><p>FileNotFoundError: Falls die angegebene Datei oder ein erforderlicher Ordner nicht gefunden wird.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.create_ini_config">
+<span class="sig-name descname"><span class="pre">create_ini_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_output_folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.create_ini_config" title="Link to this definition">¶</a></dt>
+<dd><p>Erstellt eine INI-Konfigurationsdatei aus den Systeminformationen und Kanälen.</p>
+<p>Diese Methode erstellt eine INI-Konfigurationsdatei, die verschiedene Konfigurationsdaten 
+aus <cite>self.system</cite>, <cite>static_info.static_config</cite> und den Kanälen (<cite>analog_channels</cite>, 
+<cite>ac_channels</cite>, <cite>counter_channels</cite>, etc.) kombiniert. Die Werte werden in einem 
+<cite>configparser.RawConfigParser</cite>-Objekt organisiert, und die Konfiguration wird dann 
+an den angegebenen Pfad ausgegeben.</p>
+<p>Der Prozess entfernt ein abschließendes Komma in der „order“-Sektion von 
+<cite>static_info.static_config[„Evaluation“]</cite> und fügt alle relevanten Daten in die INI-Datei ein.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>path_output_folder (str): Der Pfad, an dem die INI-Konfigurationsdatei gespeichert werden soll.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Eine Erfolgsmeldung, wenn die INI-Datei erfolgreich erstellt wurde.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.create_paths">
+<span class="sig-name descname"><span class="pre">create_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manufacture_plan_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.create_paths" title="Link to this definition">¶</a></dt>
+<dd><p>Erstellt die benötigten Ordnerpfade für das Projekt.</p>
+<p>Diese Methode nimmt den Pfad zum Herstellungsplan, extrahiert den Projektordner und
+erstellt erforderliche Unterordner, falls diese noch nicht existieren. Der Hauptordner 
+„config“ wird dabei erstellt, und auch der Ordner für Zertifikate wird ermittelt.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>manufacture_plan_path (str): Der Pfad zum Herstellungsplan.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>tuple: Ein Tupel bestehend aus zwei Pfaden:</dt><dd><ul class="simple">
+<li><p>Der Pfad zum „config“-Ordner im Projektverzeichnis.</p></li>
+<li><p>Der Pfad zum „06_Certificates“-Ordner im Projektverzeichnis.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.create_system_dict">
+<span class="sig-name descname"><span class="pre">create_system_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.create_system_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.create_system_info">
+<span class="sig-name descname"><span class="pre">create_system_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.create_system_info" title="Link to this definition">¶</a></dt>
+<dd><p>Erstellt und speichert eine Übersicht der Systeminformationen des Ammonit-Datenloggers.</p>
+<p>Diese Funktion generiert eine Liste von Informationen zum aktuellen Zustand des Datenloggers, 
+einschließlich des Typs, der Seriennummer, der verfügbaren Kanäle und anderer relevanter 
+Systemdaten. Die generierten Informationen werden als Attribut <cite>self.system_info</cite> gespeichert.</p>
+<dl class="simple">
+<dt>Die enthaltenen Informationen umfassen:</dt><dd><ul class="simple">
+<li><p>Datenlogger-Typ (<cite>self.name</cite>)</p></li>
+<li><p>Seriennummer (<cite>self.serial_number</cite>)</p></li>
+<li><p>Anzahl der jeweiligen Kanäle</p></li>
+<li><p>Standortinformationen (standardmäßig „unknown“)</p></li>
+<li><p>Speicherinformationen (RAM, System- und Quellenspeicher)</p></li>
+<li><p>Anzahl der Statistikdateien</p></li>
+<li><p>Software- und Bootloader-Versionen</p></li>
+<li><p>Aktuelle Verbindungen</p></li>
+<li><p>Zeitstempel im UTC-Format</p></li>
+</ul>
+</dd>
+</dl>
+<p>Der Zeitstempel wird mit der aktuellen UTC-Zeit generiert.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="generator.Generator.eval_index">
+<span class="sig-name descname"><span class="pre">eval_index</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#generator.Generator.eval_index" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.format_value">
+<span class="sig-name descname"><span class="pre">format_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.format_value" title="Link to this definition">¶</a></dt>
+<dd><p>Formatiert den Wert für die Verwendung in einer INI-Datei.</p>
+<p>Diese Methode konvertiert den übergebenen Wert in einen String und nimmt 
+spezielle Formatierungen vor, um sicherzustellen, dass der Wert korrekt 
+in einer INI-Konfigurationsdatei gespeichert werden kann. Es werden verschiedene 
+Bedingungen überprüft, darunter die Behandlung von <cite>None</cite>, <cite>True</cite>, <cite>False</cite> und 
+speziellen Zeichen wie <cite>´</cite>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>value: Der Wert, der formatiert werden soll. Kann beliebigen Typs sein.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Der formatierte Wert als String.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.initialize_channels">
+<span class="sig-name descname"><span class="pre">initialize_channels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.initialize_channels" title="Link to this definition">¶</a></dt>
+<dd><p>Initialisiert die Kanäle basierend auf dem Typ des Dataloggers, der aus dem Attribut <cite>self.name</cite> extrahiert wird.</p>
+<p>Die Funktion erstellt eine verschachtelte Dictionary-Struktur mit Kanälen, die unterschiedliche Konfigurationen 
+für verschiedene Datalogger-Typen („L“, „M“, „S“) enthalten. Die Schlüssel und Werte definieren Kanäle und 
+deren unterstützte Bereiche.</p>
+<p>Die Funktion nutzt:
+- Dict Comprehensions für die effiziente Erstellung von Listen.
+- Reguläre Ausdrücke, um den Datalogger-Typ aus dem Attribut <cite>self.name</cite> zu extrahieren.</p>
+<p>Der erzeugte Kanal wird unter <cite>self.channels</cite> gespeichert, und <cite>self.name</cite> wird entsprechend dem Typ aktualisiert.</p>
+<dl class="simple">
+<dt>Raises:</dt><dd><p>ValueError: Wenn der Typ des Dataloggers nicht ermittelt werden kann.</p>
+</dd>
+<dt>Details:</dt><dd><ul class="simple">
+<li><p>R1C: Ein Dictionary mit 8 Listen als Werte, wobei jede Liste Werte von 1 bis 8 enthält.</p></li>
+<li><dl class="simple">
+<dt>Channels-Struktur:</dt><dd><ul>
+<li><p>M: Enthält Kanäle für „C“, „D“, „A“, „AC“, „P“, „R“, „R1C“, „Switch“, „Period“.</p></li>
+<li><p>S: Enthält reduzierte Kanäle für „C“, „D“, „A“, „AC“, „P“, „R“, „R1C“, „Switch“.</p></li>
+<li><p>L: Erweiterte Kanäle mit mehr Einträgen für „C“, „D“, „A“, „AC“, „P“, „R“, „R1C“, „Switch“, „Period“.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.load_db">
+<span class="sig-name descname"><span class="pre">load_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.load_db" title="Link to this definition">¶</a></dt>
+<dd><p>Lädt die Sensordatenbank aus einer Excel-Datei.</p>
+<p>Diese Methode liest die Excel-Datei <cite>sensor_db.xlsx</cite> aus dem Verzeichnis <cite>ASSETS_DIR</cite>, konvertiert 
+die <cite>model_id</cite>-Spalte in Ganzzahlen und ersetzt alle <cite>NaN</cite>-Werte durch <cite>None</cite>. Danach wird die 
+Datenbank als Dictionary im <cite>index</cite>-Format gespeichert.</p>
+<p>Dies ermöglicht den einfachen Zugriff auf die Sensorinformationen, indem die Indizes als Schlüssel 
+verwendet werden.</p>
+<dl class="simple">
+<dt>Raises:</dt><dd><p>FileNotFoundError: Falls die Excel-Datei im angegebenen Verzeichnis nicht gefunden wird.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="generator.Generator.sensor_classes">
+<span class="sig-name descname"><span class="pre">sensor_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'anemometer':</span> <span class="pre">&lt;class</span> <span class="pre">'ammonit.sensor.Anemometer'&gt;,</span> <span class="pre">'barometer':</span> <span class="pre">&lt;class</span> <span class="pre">'ammonit.sensor.Barometer'&gt;,</span> <span class="pre">'hygro_thermo':</span> <span class="pre">&lt;class</span> <span class="pre">'ammonit.sensor.Temperature_and_Humidity'&gt;,</span> <span class="pre">'wind_vane':</span> <span class="pre">&lt;class</span> <span class="pre">'ammonit.sensor.WindVane'&gt;}</span></em><a class="headerlink" href="#generator.Generator.sensor_classes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="generator.Generator.sensor_index">
+<span class="sig-name descname"><span class="pre">sensor_index</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#generator.Generator.sensor_index" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="generator.Generator.sensor_list">
+<span class="sig-name descname"><span class="pre">sensor_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#generator.Generator.sensor_list" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.validate_path">
+<span class="sig-name descname"><span class="pre">validate_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.validate_path" title="Link to this definition">¶</a></dt>
+<dd><p>Überprüft, ob der angegebene Pfad existiert.</p>
+<p>Diese Methode überprüft, ob der angegebene Dateipfad existiert. Falls der Pfad nicht 
+gefunden wird, wird eine <cite>FileNotFoundError</cite>-Ausnahme ausgelöst.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>path (str): Der Pfad zur zu überprüfenden Datei oder dem Verzeichnis.</p>
+</dd>
+<dt>Raises:</dt><dd><p>FileNotFoundError: Falls der angegebene Pfad nicht existiert.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="generator.Generator.write_config">
+<span class="sig-name descname"><span class="pre">write_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ini</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_output_folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generator.Generator.write_config" title="Link to this definition">¶</a></dt>
+<dd><p>Schreibt eine Konfiguration in eine Datei und ergänzt sie mit Systeminformationen und Kommentaren.</p>
+<p>Diese Methode verwendet die <cite>StringIO</cite>-Klasse, um die Konfigurationsdaten im Speicher zwischenzuspeichern, bevor sie in eine Datei geschrieben werden.
+Dadurch entfällt der direkte Zugriff auf physische Dateien während der Verarbeitung. Die Konfiguration wird zusätzlich mit
+systembezogenen Kommentaren ergänzt.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ini (ConfigParser): Das ConfigParser-Objekt, das die Konfigurationsdaten enthält.
+path_output_folder (str): Der Pfad zum Ausgabeverzeichnis, in dem die Konfigurationsdatei gespeichert wird.</p>
+</dd>
+<dt>Ablauf:</dt><dd><ol class="arabic simple">
+<li><p>Die Methode schreibt die Konfigurationsdaten mithilfe von <cite>ConfigParser.write</cite> in ein <cite>StringIO</cite>-Objekt.</p></li>
+<li><p>Mit <cite>.getvalue()</cite> wird der gesamte Inhalt aus dem <cite>StringIO</cite>-Objekt als String extrahiert.</p></li>
+<li><p>Systeminformationen und zusätzliche Kommentare werden dem Konfigurationsstring vorangestellt.</p></li>
+<li><p>Der vollständige Text wird in eine Datei im angegebenen Ausgabeverzeichnis geschrieben.</p></li>
+</ol>
+</dd>
+<dt>Returns:</dt><dd><p>str: Die endgültige Konfigurationsdatei als String, einschließlich Systeminformationen und Kommentaren.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function" id="module-excel_reader_manufactureplan">
+<dt class="sig sig-object py" id="excel_reader_manufactureplan.read_man_plan">
+<span class="sig-prename descclassname"><span class="pre">excel_reader_manufactureplan.</span></span><span class="sig-name descname"><span class="pre">read_man_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#excel_reader_manufactureplan.read_man_plan" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function" id="module-pdf_extractor_slope_offset">
+<dt class="sig sig-object py" id="pdf_extractor_slope_offset.extract_slope_offset">
+<span class="sig-prename descclassname"><span class="pre">pdf_extractor_slope_offset.</span></span><span class="sig-name descname"><span class="pre">extract_slope_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf_folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdf_extractor_slope_offset.extract_slope_offset" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdf_extractor_slope_offset.get_filenames">
+<span class="sig-prename descclassname"><span class="pre">pdf_extractor_slope_offset.</span></span><span class="sig-name descname"><span class="pre">get_filenames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.pdf'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdf_extractor_slope_offset.get_filenames" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdf_extractor_slope_offset.search_pdf_for_values">
+<span class="sig-prename descclassname"><span class="pre">pdf_extractor_slope_offset.</span></span><span class="sig-name descname"><span class="pre">search_pdf_for_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdf_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdf_extractor_slope_offset.search_pdf_for_values" title="Link to this definition">¶</a></dt>
+<dd><p>re.compile(r‘‘ + re.escape(value) + r‘|‘ + re.escape(value.replace(‘ ‚, ‚‘)) + r‘‘, re.IGNORECASE) 
+re.complie erstellt ein reguläres Ausdrucksmuster für eine Suchoperation gibt ein Regex Objekt zurück 
+r steht für Rawstring er ermöglicht es escapezeichen zu vermeiden 
+ ist ein Wortgrenzen Anker Entspricht einer Postion einer Grenze zwischen Wort und nicht Wort zeichen 
+value.replace beduetet das alle leerzeichen aus dem value entfernt werden z.b. Serial Number wird SerialNumber 
+| ist ein logisches Oder wird in re verwendet um verschiedene fälle zu erschaffen z.b. SerialNumber oder Serial Number 
+ignorecase wird verwendet um Groß oder Kleinschreibung zu ignorieren</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdf_extractor_slope_offset.search_pdfs">
+<span class="sig-prename descclassname"><span class="pre">pdf_extractor_slope_offset.</span></span><span class="sig-name descname"><span class="pre">search_pdfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Serial_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf_folder_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdf_extractor_slope_offset.search_pdfs" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class" id="module-sensor">
+<dt class="sig sig-object py" id="sensor.Anemometer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sensor.</span></span><span class="sig-name descname"><span class="pre">Anemometer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">available_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SENSOR_DB</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Anemometer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sensor.SensorBase" title="sensor.SensorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.Anemometer.process_activision_values">
+<span class="sig-name descname"><span class="pre">process_activision_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Anemometer.process_activision_values" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.Anemometer.process_eval_section">
+<span class="sig-name descname"><span class="pre">process_eval_section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Anemometer.process_eval_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.Anemometer.process_sensor_section">
+<span class="sig-name descname"><span class="pre">process_sensor_section</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Anemometer.process_sensor_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sensor.Barometer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sensor.</span></span><span class="sig-name descname"><span class="pre">Barometer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">available_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SENSOR_DB</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Barometer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sensor.SensorBase" title="sensor.SensorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.Barometer.process_activision_values">
+<span class="sig-name descname"><span class="pre">process_activision_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Barometer.process_activision_values" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.Barometer.process_eval_section">
+<span class="sig-name descname"><span class="pre">process_eval_section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Barometer.process_eval_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.Barometer.process_sensor_section">
+<span class="sig-name descname"><span class="pre">process_sensor_section</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Barometer.process_sensor_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sensor.SensorBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sensor.</span></span><span class="sig-name descname"><span class="pre">SensorBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">available_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SENSOR_DB</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.convert_values_from_db">
+<span class="sig-name descname"><span class="pre">convert_values_from_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.convert_values_from_db" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.create_activision_values">
+<span class="sig-name descname"><span class="pre">create_activision_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.create_activision_values" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.create_eval_section">
+<span class="sig-name descname"><span class="pre">create_eval_section</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.create_eval_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.create_sensor_section">
+<span class="sig-name descname"><span class="pre">create_sensor_section</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.create_sensor_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.get_number_of_evals">
+<span class="sig-name descname"><span class="pre">get_number_of_evals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.get_number_of_evals" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.get_sections">
+<span class="sig-name descname"><span class="pre">get_sections</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.get_sections" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.process_activision_values">
+<span class="sig-name descname"><span class="pre">process_activision_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.process_activision_values" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.process_eval_section">
+<span class="sig-name descname"><span class="pre">process_eval_section</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.process_eval_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.process_sensor_section">
+<span class="sig-name descname"><span class="pre">process_sensor_section</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.process_sensor_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.select_channel">
+<span class="sig-name descname"><span class="pre">select_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.select_channel" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.SensorBase.update_eval">
+<span class="sig-name descname"><span class="pre">update_eval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.SensorBase.update_eval" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sensor.Temperature_and_Humidity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sensor.</span></span><span class="sig-name descname"><span class="pre">Temperature_and_Humidity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">available_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SENSOR_DB</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Temperature_and_Humidity" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sensor.SensorBase" title="sensor.SensorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.Temperature_and_Humidity.process_activision_values">
+<span class="sig-name descname"><span class="pre">process_activision_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Temperature_and_Humidity.process_activision_values" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.Temperature_and_Humidity.process_eval_section">
+<span class="sig-name descname"><span class="pre">process_eval_section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Temperature_and_Humidity.process_eval_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.Temperature_and_Humidity.process_sensor_section">
+<span class="sig-name descname"><span class="pre">process_sensor_section</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.Temperature_and_Humidity.process_sensor_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sensor.Temperature_and_Humidity.types">
+<span class="sig-name descname"><span class="pre">types</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['humidity',</span> <span class="pre">'temperature']</span></em><a class="headerlink" href="#sensor.Temperature_and_Humidity.types" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sensor.WindVane">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sensor.</span></span><span class="sig-name descname"><span class="pre">WindVane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">available_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SENSOR_DB</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.WindVane" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sensor.SensorBase" title="sensor.SensorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.WindVane.process_activision_values">
+<span class="sig-name descname"><span class="pre">process_activision_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.WindVane.process_activision_values" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.WindVane.process_eval_section">
+<span class="sig-name descname"><span class="pre">process_eval_section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensor.WindVane.process_eval_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sensor.WindVane.process_sensor_section">
+<span class="sig-name descname"><span class="pre">process_sensor_section</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sensor.WindVane.process_sensor_section" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-static_info"></span></section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Konfigurationsgenerator</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Schnellsuche</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Los" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Kim Christopher Plecker.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
